@@ -36,10 +36,18 @@ class Settings(BaseSettings):
     ALLOWED_EXTENSIONS: List[str] = ["jpg", "jpeg", "png", "pdf", "tiff", "webp"]
 
     # CORS
-    ALLOWED_ORIGINS: List[str] = os.getenv(
-        "ALLOWED_ORIGINS",
-        "http://localhost:3000,http://localhost:5173,https://your-frontend-domain.vercel.app"
-    ).split(",")
+    ALLOWED_ORIGINS: List[str] = ["http://localhost:3000", "http://localhost:5173"]
+
+    @validator("ALLOWED_ORIGINS", pre=True)
+    def parse_origins(cls, v):
+        if isinstance(v, str):
+        # Handle both JSON array and comma-separated string
+            v = v.strip()
+        if v.startswith("["):
+            import json
+            return json.loads(v)
+        return [i.strip() for i in v.split(",") if i.strip()]
+        return v
 
     # Similarity threshold for format detection
     FORMAT_SIMILARITY_THRESHOLD: float = float(os.getenv("FORMAT_SIMILARITY_THRESHOLD", "0.75"))
