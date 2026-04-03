@@ -84,9 +84,14 @@ export default function Invoices() {
       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-2xl font-bold text-ink-50">Invoices</h1>
-          <p className="text-sm text-ink-400 mt-1">All extracted invoice records</p>
+          <p className="text-sm text-ink-400 mt-1">
+            All extracted invoice records
+          </p>
         </div>
-        <button className="btn-secondary flex items-center gap-2 text-sm" onClick={load}>
+        <button
+          className="btn-secondary flex items-center gap-2 text-sm"
+          onClick={load}
+        >
           <RefreshCw size={14} />
           Refresh
         </button>
@@ -96,33 +101,56 @@ export default function Invoices() {
       <div className="card p-4">
         <div className="flex flex-wrap gap-3">
           <div className="relative flex-1 min-w-48">
-            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-500" />
+            <Search
+              size={14}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-500"
+            />
             <input
               className="input pl-9 py-2 text-sm"
               placeholder="Search invoices…"
               value={search}
-              onChange={(e) => { setSearch(e.target.value); setPage(0) }}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setPage(0);
+              }}
             />
           </div>
           <input
             className="input w-40 py-2 text-sm"
             placeholder="Vendor filter"
             value={vendor}
-            onChange={(e) => { setVendor(e.target.value); setPage(0) }}
+            onChange={(e) => {
+              setVendor(e.target.value);
+              setPage(0);
+            }}
           />
           <select
             className="input w-32 py-2 text-sm"
             value={currency}
-            onChange={(e) => { setCurrency(e.target.value); setPage(0) }}
+            onChange={(e) => {
+              setCurrency(e.target.value);
+              setPage(0);
+            }}
           >
-            {CURRENCIES.map((c) => <option key={c} value={c}>{c || 'All currencies'}</option>)}
+            {CURRENCIES.map((c) => (
+              <option key={c} value={c}>
+                {c || "All currencies"}
+              </option>
+            ))}
           </select>
           <select
             className="input w-36 py-2 text-sm"
             value={status}
-            onChange={(e) => { setStatus(e.target.value); setPage(0) }}
+            onChange={(e) => {
+              setStatus(e.target.value);
+              setPage(0);
+            }}
           >
-            {STATUSES.map((s) => <option key={s} value={s}>{s || 'All statuses'}</option>)}
+            {STATUSES.map((s) => (
+              <option key={s} value={s}>
+                {s || "All statuses"}
+              </option>
+            ))}
           </select>
         </div>
       </div>
@@ -131,15 +159,19 @@ export default function Invoices() {
       <div className="card overflow-hidden">
         {loading ? (
           <div className="p-6 space-y-3">
-            {Array(8).fill(0).map((_, i) => (
-              <div key={i} className="shimmer h-12 rounded-lg" />
-            ))}
+            {Array(8)
+              .fill(0)
+              .map((_, i) => (
+                <div key={i} className="shimmer h-12 rounded-lg" />
+              ))}
           </div>
         ) : invoices.length === 0 ? (
           <div className="py-20 text-center text-ink-500">
             <Filter size={32} className="mx-auto mb-3 text-ink-700" />
             <p className="font-medium text-ink-300">No invoices found</p>
-            <p className="text-sm mt-1">Try adjusting filters or upload more invoices</p>
+            <p className="text-sm mt-1">
+              Try adjusting filters or upload more invoices
+            </p>
           </div>
         ) : (
           <div className="overflow-x-auto">
@@ -167,26 +199,36 @@ export default function Invoices() {
                     <td className="td">
                       <div className="flex items-center gap-2">
                         <span className="font-mono text-xs text-ink-300">
-                          {inv.invoice_number || '—'}
+                          {inv.invoice_number || "—"}
                         </span>
                         {inv.is_duplicate && (
-                          <AlertTriangle size={12} className="text-amber-400 flex-shrink-0" title="Duplicate" />
+                          <AlertTriangle
+                            size={12}
+                            className="text-amber-400 flex-shrink-0"
+                          />
                         )}
                       </div>
                     </td>
                     <td className="td">
                       <div className="font-medium text-ink-100">
-                        {truncate(inv.normalized_vendor || inv.vendor_name, 26) || '—'}
+                        {truncate(
+                          inv.normalized_vendor || inv.vendor_name,
+                          26,
+                        ) || "—"}
                       </div>
                     </td>
-                    <td className="td text-ink-400">{formatDate(inv.invoice_date)}</td>
-                    <td className="td text-ink-400">{formatDate(inv.due_date)}</td>
+                    <td className="td text-ink-400">
+                      {formatDate(inv.invoice_date)}
+                    </td>
+                    <td className="td text-ink-400">
+                      {formatDate(inv.due_date)}
+                    </td>
                     <td className="td font-mono font-semibold">
                       {formatCurrency(inv.total_amount, inv.currency)}
                     </td>
                     <td className="td">
                       <span className="badge bg-ink-800 text-ink-400 border border-ink-700">
-                        {inv.currency || 'USD'}
+                        {inv.currency || "USD"}
                       </span>
                     </td>
                     <td className="td">
@@ -196,12 +238,14 @@ export default function Invoices() {
                             className="confidence-fill"
                             style={{
                               width: `${(inv.confidence_score ?? 0) * 100}%`,
-                              background: confidenceColor(inv.confidence_score)
+                              background: confidenceColor(inv.confidence_score),
                             }}
                           />
                         </div>
                         <span className="text-xs text-ink-400">
-                          {inv.confidence_score != null ? `${(inv.confidence_score * 100).toFixed(0)}%` : '—'}
+                          {inv.confidence_score != null
+                            ? `${(inv.confidence_score * 100).toFixed(0)}%`
+                            : "—"}
                         </span>
                       </div>
                     </td>
@@ -219,17 +263,18 @@ export default function Invoices() {
                         >
                           <Eye size={14} />
                         </button>
-                        {inv.processing_status === 'error' && (
+                        {inv.processing_status === "error" && (
                           <button
                             title="Retry"
                             className="p-1.5 rounded hover:bg-ink-700 text-amber-500 hover:text-amber-300"
                             onClick={(e) => handleRetry(e, inv.id)}
                             disabled={retrying === inv.id}
                           >
-                            {retrying === inv.id
-                              ? <Loader2 size={14} className="animate-spin" />
-                              : <RotateCcw size={14} />
-                            }
+                            {retrying === inv.id ? (
+                              <Loader2 size={14} className="animate-spin" />
+                            ) : (
+                              <RotateCcw size={14} />
+                            )}
                           </button>
                         )}
                         <button
@@ -272,5 +317,5 @@ export default function Invoices() {
         </div>
       </div>
     </div>
-  )
+  );
 }
