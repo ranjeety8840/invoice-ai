@@ -62,7 +62,7 @@ Supabase (PostgreSQL + Storage)
 | Frontend   | React 18 + TypeScript + Vite               |
 | Styling    | Tailwind CSS (custom dark design system)   |
 | Charts     | Recharts                                   |
-| Backend    | FastAPI + Python 3.11+                     |
+| Backend    | FastAPI + Python 3.11.9                     |
 | OCR        | Tesseract + PyMuPDF + OpenAI Vision        |
 | LLM        | OpenAI GPT-4o (or Anthropic Claude)        |
 | Database   | Supabase (PostgreSQL)                      |
